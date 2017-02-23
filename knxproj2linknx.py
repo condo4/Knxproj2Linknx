@@ -10,19 +10,22 @@ if len(sys.argv) < 3 or len(sys.argv) > 4:
     exit(1)
 
 DATATYPE = { \
-    #"DPT-1": "1.",
-    "DPST-1-1":  "1.001",
-    "DPST-1-3":  "1.003",
-    "DPST-1-11": "1.011",
-    "DPST-3-7":  "3.007",
-    "DPST-5-1":  "5.001",
-    #"DPT-5":  "5.001",
-    "DPT-7":     "7.xxx",
-    "DPST-9-1":  "9.001",
-    "DPST-10-1": "10.001",
-    "DPST-11-1": "11.001",
-    #"DPST-13-10": "13.010",
-    #"DPST-14-56": "14.056",
+    "DPT-1":      "1.001",
+    "DPST-1-1":   "1.001",
+    "DPST-1-3":   "1.003",
+    "DPST-1-7":   "1.007",
+    "DPST-1-8":   "1.008",
+    "DPST-1-11":  "1.011",
+    "DPST-3-7":   "3.007",
+    "DPST-5-1":   "5.001",
+    "DPT-5":      "5.xxx",
+    "DPT-7":      "7.xxx",
+    "DPST-9-1":   "9.001",
+    "DPST-9-4":   "9.004",
+    "DPST-10-1":  "10.001",
+    "DPST-11-1":  "11.001",
+    "DPST-13-10": "13.xxx",
+    "DPST-14-56": "14.xxx",
 }
 
 
@@ -64,7 +67,7 @@ def processRange(rng, lvl, name = []):
         idname = "_".join([  "".join(s) for s in names])
         if "DatapointType" in rng.attrib.keys():
             if not rng.attrib['DatapointType'] in DATATYPE.keys():
-                print("ERROR: Unknown type " + rng.attrib['DatapointType'] )
+                print("ERROR: Unknown type " + rng.attrib['DatapointType'] + " for " + idname )
                 datatype = None
             else:
                 datatype = DATATYPE[rng.attrib['DatapointType']]

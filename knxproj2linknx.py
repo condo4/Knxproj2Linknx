@@ -9,6 +9,21 @@ if len(sys.argv) < 3 or len(sys.argv) > 4:
     print("\t - If linknx_output is - , modify linknx_source file (and generate linknx_source~ backup")
     exit(1)
 
+DATATYPE = { \
+    #"DPT-1": "1.",
+    "DPST-1-1":  "1.001",
+    "DPST-1-3":  "1.003",
+    "DPST-1-11": "1.011",
+    "DPST-3-7":  "3.007",
+    "DPST-5-1":  "5.001",
+    #"DPT-5":  "5.001",
+    "DPT-7":     "7.xxx",
+    "DPST-9-1":  "9.001",
+    "DPST-10-1": "10.001",
+    "DPST-11-1": "11.001",
+    #"DPST-13-10": "13.010",
+    #"DPST-14-56": "14.056",
+}
 
 
 archive = zipfile.ZipFile(sys.argv[1], 'r')
@@ -36,7 +51,7 @@ objectlist = []
 
 def processRange(rng, lvl, name = []):
     names = copy.copy(name)
-    new_names = rng.attrib['Name'].title().split()
+    new_names = rng.attrib['Name'].title().replace("/","").split()
     for i in names:
         for s in i:
             if s in new_names:
@@ -48,12 +63,11 @@ def processRange(rng, lvl, name = []):
     elif "GroupAddress" in rng.tag:
         idname = "_".join([  "".join(s) for s in names])
         if "DatapointType" in rng.attrib.keys():
-            p = [i for i in rng.attrib['DatapointType'].split("-")[1:]]
-            if len(p) < 2:
-                p.append("xxx")
+            if not rng.attrib['DatapointType'] in DATATYPE.keys():
+                print("ERROR: Unknown type " + rng.attrib['DatapointType'] )
+                datatype = None
             else:
-                p[1] = "%03i"%(int(p[1]))
-            datatype = "%s.%s"%tuple(p)
+                datatype = DATATYPE[rng.attrib['DatapointType']]
         else:
             datatype = None
         addr = int(rng.attrib['Address'])

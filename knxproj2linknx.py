@@ -91,6 +91,8 @@ parser = etree.XMLParser(remove_blank_text=True)
 linknx = etree.parse(sys.argv[2], parser)
 parent = linknx.xpath("/config/objects")[0]
 
+objectlist.sort(key=lambda tup: tup[0])
+
 for src in objectlist:
     previous = linknx.xpath("//object[@id='%s']"%src[0])
     if len(previous) == 1:
@@ -104,6 +106,10 @@ for src in objectlist:
     if "init" not in current_object.attrib.keys():
         current_object.attrib["init"] = "request"
     current_object.text = src[0]
+
+def getkey(elem):
+    return elem.get('id')
+parent[:] = sorted(parent, key=lambda x: x.get('id'))
 
 if len(sys.argv) == 3:
     out = etree.tostring(linknx, pretty_print=True, xml_declaration=True, encoding='UTF-8')

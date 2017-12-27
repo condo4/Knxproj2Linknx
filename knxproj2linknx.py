@@ -12,7 +12,7 @@ if len(sys.argv) < 3 or len(sys.argv) > 4:
 DATATYPE = { \
     "DPT-1":      "1.001",
     "DPST-1-1":   "1.001",
-    "DPST-1-2":   "1.001",
+    "DPST-1-2":   "1.002",
     "DPST-1-3":   "1.003",
     "DPST-1-7":   "1.007",
     "DPST-1-8":   "1.008",
@@ -22,6 +22,7 @@ DATATYPE = { \
     "DPST-5-5":   "5.005",
     "DPT-5":      "5.xxx",
     "DPT-7":      "7.xxx",
+    "DPST-7-13":  "7.xxx", # Type unknown in linknx
     "DPST-9-1":   "9.001",
     "DPST-9-4":   "9.004",
     "DPST-9-6":   "9.006",
@@ -30,6 +31,7 @@ DATATYPE = { \
     "DPST-11-1":  "11.001",
     "DPST-13-10": "13.xxx",
     "DPST-14-56": "14.xxx",
+    "DPST-225-1": None, # Type unknown in linknx
 }
 
 

@@ -38,7 +38,7 @@ DATATYPE = { \
 archive = zipfile.ZipFile(sys.argv[1], 'r')
 
 # Extract Project file
-projects = [ i for i in archive.filelist if "0.xml" in i.filename ]
+projects = [ i for i in archive.filelist if i.filename.split("/")[-1] == "0.xml" ]
 if len(projects) != 1:
     print("Problem when loading file, can't find only one 0.xml; please send this file to fabien@kazoe.org")
     exit(-1)

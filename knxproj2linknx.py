@@ -9,7 +9,7 @@ if len(sys.argv) < 3 or len(sys.argv) > 4:
     print("\t - If linknx_output is - , modify linknx_source file (and generate linknx_source~ backup")
     exit(1)
 
-+# Special Datatype not supproted by linknx
+# Special Datatype not supproted by linknx
 DATATYPE = { \
     "DPST-13-10": "13.xxx",
     "DPST-14-56": "14.xxx",

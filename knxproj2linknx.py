@@ -9,31 +9,21 @@ if len(sys.argv) < 3 or len(sys.argv) > 4:
     print("\t - If linknx_output is - , modify linknx_source file (and generate linknx_source~ backup")
     exit(1)
 
++# Special Datatype not supproted by linknx
 DATATYPE = { \
-    "DPT-1":      "1.001",
-    "DPST-1-1":   "1.001",
-    "DPST-1-2":   "1.002",
-    "DPST-1-3":   "1.003",
-    "DPST-1-7":   "1.007",
-    "DPST-1-8":   "1.008",
-    "DPST-1-11":  "1.011",
-    "DPST-3-7":   "3.007",
-    "DPST-5-1":   "5.001",
-    "DPST-5-5":   "5.005",
-    "DPT-5":      "5.xxx",
-    "DPT-7":      "7.xxx",
-    "DPST-7-13":  "7.xxx", # Type unknown in linknx
-    "DPST-9-1":   "9.001",
-    "DPST-9-4":   "9.004",
-    "DPST-9-6":   "9.006",
-    "DPST-9-7":   "9.007",
-    "DPST-10-1":  "10.001",
-    "DPST-11-1":  "11.001",
     "DPST-13-10": "13.xxx",
     "DPST-14-56": "14.xxx",
     "DPST-225-1": None, # Type unknown in linknx
 }
 
+def Datatype(name):
+    if name in DATATYPE.keys():
+        return DATATYPE[name]
+    n = name.split("-")
+    if n[0] == "DPT":
+        return "%s.xxx"%n[1]
+    else:
+        return "%i.%03i"%(int(n[1]),int(n[2]))
 
 archive = zipfile.ZipFile(sys.argv[1], 'r')
 
@@ -72,11 +62,7 @@ def processRange(rng, lvl, name = []):
     elif "GroupAddress" in rng.tag:
         idname = "_".join([  "".join(s) for s in names])
         if "DatapointType" in rng.attrib.keys():
-            if not rng.attrib['DatapointType'] in DATATYPE.keys():
-                print("ERROR: Unknown type " + rng.attrib['DatapointType'] + " for " + idname )
-                datatype = None
-            else:
-                datatype = DATATYPE[rng.attrib['DatapointType']]
+            datatype = Datatype(rng.attrib['DatapointType'])
         else:
             datatype = None
         addr = int(rng.attrib['Address'])
